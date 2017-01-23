@@ -1,0 +1,17 @@
+* {
+    margin: 0;
+}
+html,body{
+    height: 100%;
+        width: 100%;
+        
+}
+
+nav{
+    background-color: rgba(204,0,0,0.9);
+    height: 50px;
+    width: 100%;
+    position: fixed;
+    z-index: 99;
+
+}

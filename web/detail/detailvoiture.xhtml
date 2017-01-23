@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>Location de voiture</title>
+        <link rel="stylesheet" href="../ressources/css/style.css"/>
+
+    </h:head>
+    <h:body id="principal">
+       
+        <nav>
+
+        </nav>
+        <p:contentFlow var="inv" style="width: 100%; height: 50%" value="#{voitures.vts}" >
+            <p:graphicImage id="photo" value="#{voitures.streamedImageById}" styleClass="content"  title="#{inv.marqueVoiture}">
+                <f:param name="inv" value="#{inv.idVoiture}" />
+            </p:graphicImage>   
+            <div class="caption">#{inv.marqueVoiture}</div>
+        </p:contentFlow> 
+
+        <p:layout style="min-width:400px;min-height:200px;">
+
+            <p:layoutUnit position="west" >
+
+                <h:form>
+                    <p:panel>
+                        <f:facet name="header" >
+                            Rechercher
+                        </f:facet>
+                        <h:panelGrid cellpadding="4" columns="2">
+                            <p:selectOneMenu  id="ca" style="border-radius: 8px;width: 100px;font-size: 12px" value="#{voitures.categorie}"  var="nationalite_var" 
+                                              filterMatchMode="startsWith" effect="fade"  filter="true">
+                                <f:selectItem itemLabel=" Catégorie" itemValue=""/>
+                                <f:selectItems value="#{voitures.vts}" var="vtl"
+                                               itemLabel="#{vtl.categorieVoiture}" itemValue="#{vtl.categorieVoiture}"/>
+                            </p:selectOneMenu> 
+
+                            <p:selectOneMenu  id="mak" style="border-radius: 8px;width: 100px;font-size: 12px" value="#{voitures.marque}"  var="nationalite_var" 
+                                              filterMatchMode="startsWith" effect="fade"  filter="true">
+                                <f:selectItem itemLabel="marque" itemValue=""/>
+                                <f:selectItems value="#{voitures.vts}" var="vtl"
+                                               itemLabel="#{vtl.marqueVoiture}" itemValue="#{vtl.marqueVoiture}"/>
+                            </p:selectOneMenu> 
+
+                            <p:selectOneMenu  id="model" style="border-radius: 8px;width: 100px;font-size: 12px" value="#{voitures.modele}"  var="nationalite_var" 
+                                              filterMatchMode="startsWith" effect="fade"  filter="true">
+                                <f:selectItem itemLabel="modèle" itemValue=""/>
+                                <f:selectItems value="#{voitures.vts}" var="vtl"
+                                               itemLabel="#{vtl.modeleVoiture}" itemValue="#{vtl.modeleVoiture}"/>
+                            </p:selectOneMenu>
+
+                            <p:selectOneMenu  id="cab" style="border-radius: 8px;width: 100px;font-size: 12px" value="#{voitures.caburant}"  var="nationalite_var" 
+                                              filterMatchMode="startsWith" effect="fade"  filter="true">
+                                <f:selectItem itemLabel="caburant"/>
+                                <f:selectItems value="#{voitures.vts}" var="vtl"
+                                               itemLabel="#{vtl.carburantVoiture}" itemValue="#{vtl.carburantVoiture}"/>
+                            </p:selectOneMenu>
+
+                            <p:commandButton value="valider" icon="ui-icon-search" action="#{voitures.rechercher()}"/>   
+                            <p:commandButton icon="ui-icon-refresh" value="annuler" action="#{voitures.retour()}"/>          
+
+                        </h:panelGrid>  
+                    </p:panel>
+                </h:form>
+
+            </p:layoutUnit>
+
+            <p:layoutUnit position="center">
+                <f:facet name="header">Réservé la voiture #{voitures.voiture.immatriculationVoiture}</f:facet>
+                <h:form id="form">
+                    <p:messages id="msgs" showDetail="true" autoUpdate="true" closable="true" />
+                    <center>
+                    <p:outputPanel layout="">
+                        <p:outputLabel style="font-size: 30px;color:cornflowerblue ;" value="#{voitures.voiture.marqueVoiture}"/>
+
+                         </p:outputPanel>
+                    </center>
+                    
+                    <h:panelGrid columns="3" cellspacing="4" cellpadding="4">
+                        <p:graphicImage id="tof" value="#{voitures.streamedImage}" cache="FALSE" height="400" width="350"/>
+                        <h:panelGrid columns="2">
+                          
+                        
+                            <p:outputLabel value="Imatriculation :"/>
+
+                            <p:outputLabel value="#{voitures.voiture.immatriculationVoiture}"/>
+
+                            <p:outputLabel value="boite à vitesse :"/>
+                            <p:outputLabel value="#{voitures.voiture.boiteVitesseVoiture}"/>
+
+                            <p:outputLabel value="caburant :"/>
+                            <p:outputLabel value="#{voitures.voiture.carburantVoiture}"/>
+
+                            <p:outputLabel value="climatisation :"/>
+                            <p:outputLabel value="#{voitures.voiture.climatisationVoiture}"/>
+
+                            <p:outputLabel value="couleur :"/>
+                            <p:outputLabel value="#{voitures.voiture.couleurVoiture}"/>
+
+                            <p:outputLabel value="modèle :"/>
+                            <p:outputLabel value="#{voitures.voiture.modeleVoiture}"/>
+
+                            <p:outputLabel value="type :"/>
+                            <p:outputLabel value="#{voitures.voiture.typeVoiture}"/>
+                            
+                            <p:outputLabel value="prix par jour(3jrs) :"/>
+                            <p:outputLabel  value="#{voitures.voiture.prixParJour3jour}"/>
+                            
+                            <p:outputLabel value="prix par jour(1 semaine) :"/>
+                            <p:outputLabel value="#{voitures.voiture.prixParJour1semaine}"/>
+                        </h:panelGrid>
+                        <p:commandButton value="Je reserve" action="#{reservationbean.recupererVt(voitures.voiture)}" icon="ui-icon-triangle-1-e"/>
+
+                    </h:panelGrid>
+                    <p:commandButton value="retour" immediate="true" icon="ui-icon-arrowreturnthick-1-w" action="/acceil/acceil?faces-redirect=true"/>
+
+                </h:form>
+            </p:layoutUnit>
+        </p:layout>
+    </h:body>
+</html>
+

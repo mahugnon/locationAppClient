@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Location de voiture</title>
+       
+    </h:head>
+    <h:body id="principal" style="background-color: yellowgreen;width: 1000px; padding-left: 50px;background-image: url(ressources/background.jpg)">
+        <h:form id="frm">
+    
+            <p:growl showDetail="true"/>
+  
+            <h:panelGrid  columns="2" cellpadding="4" id="gd" style="margin:0 auto ; padding-top: 50px; font-size: 15px" cellspacing="3">
+                              <p:focus context="gd"/>
+
+                <p:outputLabel for="cin" value="CIN :" />
+                <p:inputMask mask="99999999" style="color: #e27c16;border-radius: 8px;font-size: 15px" id="cin" value="#{gestionClient.client.cinCl}" required="true"/>
+
+                <p:outputLabel for="nom"  value="Nom :"/>
+                <p:inputText  style="color: #e27c16;border-radius: 8px;font-size: 15px" id="nom" value="#{gestionClient.client.nomCl}" required="true"/>
+
+                <p:outputLabel for="prenom" value="Prénom :"/>
+                <p:inputText  style="color: #e27c16;border-radius: 8px;font-size: 15px" id="prenom" value="#{gestionClient.client.prenomCl}" required="true"/>
+
+                <p:outputLabel for="naiss" value="Date de naissance :"/>
+                <p:calendar  placeholder="aaaa" style="color: #e27c16;border-radius: 8px;font-size: 15px;width: 100px" id="naiss" locale="tr" showButtonPanel="true" navigator="true" showWeek="true"
+                            timeZone="Europe/Paris" 
+                            value="#{gestionClient.client.dateNaissanceCl}" pattern="yyyy"  />
+
+                <p:outputLabel for="nat" value="Nationnalité:"/>
+                <h:panelGroup> 
+                    <p:selectOneMenu id="nat" style="color: #e27c16;border-radius: 8px;width: 190px;font-size: 15px" value="#{gestionClient.client.nationnaliteCl}"  var="nationalite_var" 
+                                     filterMatchMode="startsWith" effect="fade"  filter="true">
+                        <f:selectItem itemLabel="Selectionner votre pays" itemValue=""/>
+                        <f:selectItems value="#{gestionClient.nationalites}" var="pays"
+                                       itemLabel="#{pays.commoName}" itemValue="#{pays.formalName}"/>
+                    </p:selectOneMenu>
+                </h:panelGroup>
+
+                <p:outputLabel for="numP" value="Numero de permis :"/>
+                <p:inputMask mask="a*-999-999" style="color: #e27c16;border-radius: 8px;font-size: 15px" id="numP" value="#{gestionClient.client.numPermi}" required="true"/>
+
+                <p:outputLabel  value="Fidélité:"/>
+                <h:panelGroup>
+                    <p:selectOneMenu style="color: #e27c16;border-radius: 8px;width:190px ;font-size: 15px" value="#{gestionClient.client.fideliteCl}"  var="fidelite_var" 
+                                     filterMatchMode="startsWith" effect="fade"  filter="true">
+                        <f:selectItem itemLabel="Fidèle" itemValue="Fidèle"/>
+                        <f:selectItem itemLabel="Infidèle" itemValue="Infidèle"/>
+                    </p:selectOneMenu>
+                </h:panelGroup>
+
+                <p:outputLabel for="adr" value="Adresse :"/>
+                <p:inputText id="adr" style="color: #e27c16;border-radius: 8px;font-size: 15px" value="#{gestionClient.client.adresseCl}" required="true"/>
+
+                <p:outputLabel for="tel" value="Numero de téléphone :"/>
+                <p:inputText style="border-radius: 8px;font-size: 15px" id="tel" value="#{gestionClient.client.numTelCl}" required="true"/>
+
+                <p:outputLabel for="mail" value="Adresse mail :"/>
+                <p:inputText style="color: #e27c16;border-radius: 8px;font-size: 15px" id="mail" 
+                             value="#{gestionClient.client.adresseMailCl}" required="true">
+                                    <f:validator validatorId="custom.emailValidator" />
+                </p:inputText>
+               
+                <p:commandButton value="Validé" action="#{gestionClient.ajouterClient()}" 
+                                 ajax="false" icon="ui-icon-check" validateClient="true"/>
+            </h:panelGrid>
+
+
+        </h:form>    
+    </h:body>
+</html>
+

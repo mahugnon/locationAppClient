@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>Location de voiture</title>
+        <link rel="stylesheet" href="../ressources/css/style.css"/>
+        <style>
+            .ui-dialog-title {
+                display:none;
+            }
+
+            .ui-dialog-titlebar {
+                background:transparent;
+                border:none;
+            }
+
+            .ui-dialog .ui-dialog-titlebar-close {
+                right:0;
+                display: none;
+            }
+        </style>
+    </h:head>
+    <h:body id="principal">
+
+        <nav>
+    
+        </nav>
+        <p:contentFlow var="inv" style="width: 100%; height: 50%;padding-top: 30px" value="#{voitures.vts}" >
+            <p:graphicImage id="photo" value="#{voitures.streamedImageById}" styleClass="content"  title="#{inv.marqueVoiture}">
+                <f:param name="inv" value="#{inv.idVoiture}" />
+            </p:graphicImage>   
+            <div class="caption">#{inv.marqueVoiture}</div>
+        </p:contentFlow> 
+
+        <p:layout style="min-width:400px;min-height:200px;">
+
+            <p:layoutUnit position="west" >
+
+                <h:form>
+                    <p:panel>
+                        <f:facet name="header" >
+                            Rechercher
+                        </f:facet>
+                        <h:panelGrid cellpadding="4" columns="2">
+                            <p:selectOneMenu  id="ca" style="border-radius: 8px;width: 100px;font-size: 12px" value="#{voitures.categorie}"  var="nationalite_var" 
+                                              filterMatchMode="startsWith" effect="fade"  filter="true">
+                                <f:selectItem itemLabel=" Catégorie" itemValue=""/>
+                                <f:selectItems value="#{voitures.vts}" var="vtl"
+                                               itemLabel="#{vtl.categorieVoiture}" itemValue="#{vtl.categorieVoiture}"/>
+                            </p:selectOneMenu> 
+
+                            <p:selectOneMenu  id="mak" style="border-radius: 8px;width: 100px;font-size: 12px" value="#{voitures.marque}"  var="nationalite_var" 
+                                              filterMatchMode="startsWith" effect="fade"  filter="true">
+                                <f:selectItem itemLabel="marque" itemValue=""/>
+                                <f:selectItems value="#{voitures.vts}" var="vtl"
+                                               itemLabel="#{vtl.marqueVoiture}" itemValue="#{vtl.marqueVoiture}"/>
+                            </p:selectOneMenu> 
+
+                            <p:selectOneMenu  id="model" style="border-radius: 8px;width: 100px;font-size: 12px" value="#{voitures.modele}"  var="nationalite_var" 
+                                              filterMatchMode="startsWith" effect="fade"  filter="true">
+                                <f:selectItem itemLabel="modèle" itemValue=""/>
+                                <f:selectItems value="#{voitures.vts}" var="vtl"
+                                               itemLabel="#{vtl.modeleVoiture}" itemValue="#{vtl.modeleVoiture}"/>
+                            </p:selectOneMenu>
+
+                            <p:selectOneMenu  id="cab" style="border-radius: 8px;width: 100px;font-size: 12px" value="#{voitures.caburant}"  var="nationalite_var" 
+                                              filterMatchMode="startsWith" effect="fade"  filter="true">
+                                <f:selectItem itemLabel="caburant"/>
+                                <f:selectItems value="#{voitures.vts}" var="vtl"
+                                               itemLabel="#{vtl.carburantVoiture}" itemValue="#{vtl.carburantVoiture}"/>
+                            </p:selectOneMenu>
+
+                            <p:commandButton value="valider" icon="ui-icon-search" action="#{voitures.rechercher()}"/>   
+                            <p:commandButton icon="ui-icon-refresh" value="annuler" action="#{voitures.retour()}"/>          
+
+                        </h:panelGrid>  
+                    </p:panel>
+                </h:form>
+
+            </p:layoutUnit>
+
+           
+
+            <p:layoutUnit position="center">
+                <h:form id="form">
+                    <p:growl id="msgs" showDetail="true"/>
+                    
+                    <p:dataList id="tablaInventario"  var="inv" value="#{voitures.vts}"
+                                rows="4"               
+                                paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown}"
+                                paginatorPosition="bottom" type="definition" paginator="true"
+                                >
+                        <f:facet name="header">Liste de nos voitures</f:facet>
+                        <p:column>
+                            <p:commandLink id="cmd" style="text-decoration: none" action="#{voitures.recupererVoiture(inv)}">
+                                <h:panelGrid columns="2">
+                                    <p:graphicImage id="photo" value="#{voitures.streamedImageById}" cache="FALSE" height="120" width="150">
+                                        <f:param name="inv" value="#{inv.idVoiture}" />
+                                    </p:graphicImage>
+
+                                    <h:panelGrid columns="1">
+                                        <p:outputLabel value="Modèle : #{inv.modeleVoiture}"/>
+                                        <p:outputLabel value="Marque : #{inv.marqueVoiture}"/>
+
+                                    </h:panelGrid>
+
+                                </h:panelGrid>
+                            </p:commandLink>
+
+                        </p:column>
+
+                    </p:dataList>
+
+
+                </h:form>
+            </p:layoutUnit>
+        </p:layout>
+        <div>
+
+        </div>
+    </h:body>
+</html>
+

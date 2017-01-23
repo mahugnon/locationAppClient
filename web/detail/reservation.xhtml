@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <h:head>
+        <title>Location de voiture</title>
+        <link rel="stylesheet" href="../ressources/css/style.css"/>
+
+
+    </h:head>
+    <h:body id="principal">
+ 
+        <p:menubar></p:menubar>
+
+        <p:contentFlow var="inv" style="width: 100%; height: 50%" value="#{voitures.vts}" >
+            <p:graphicImage id="photo" value="#{voitures.streamedImageById}" styleClass="content"  title="#{inv.marqueVoiture}">
+                <f:param name="inv" value="#{inv.idVoiture}" />
+            </p:graphicImage>   
+            <div class="caption">#{inv.marqueVoiture}</div>
+        </p:contentFlow> 
+
+        <p:layout style="min-width:400px;min-height:200px;">
+
+            
+            <p:layoutUnit position="center">
+                <p:messages id="msgs" showDetail="true" showIcon="false" autoUpdate="true" closable="true" />
+                <f:facet name="header" class="entete">
+                    Réservation de la voiture #{reservationbean.vt.immatriculationVoiture}
+                </f:facet>
+                               <h:form id="form">
+
+                    <h:panelGrid columns="2">
+                        <p:calendar   placeholder="Date de début de reservaton" id="ddeb" locale="tr" showButtonPanel="true" navigator="true" showWeek="true"
+                                      timeZone="Europe/Paris"  required="true" showOn="button"
+                                      value="#{reservationbean.rsv.dateDebutReserv}"
+                                      pattern="dd/MM/yyyy"/>
+
+                        <p:calendar   id="dfin" locale="tr" placeholder="Date de fin de reservation" showButtonPanel="true" navigator="true" showWeek="true"
+                                      timeZone="Europe/Paris" required="true" showOn="button"
+                                      value="#{reservationbean.rsv.dateFinReserv}"
+                                      pattern="dd/MM/yyyy"  />
+
+                    </h:panelGrid>
+                    <p:separator id="separator"/>  
+
+                    <h:panelGrid id="pnl" columns="6" cellpadding="3" >
+
+                        <p:outputLabel style="border-radius: 8px;font-size: 15px;" for="sexe" value="Civilité :"/>
+                        <p:selectOneMenu style="border-radius: 8px;font-size: 15px;width: 100px" id="sexe" required="true" value="#{reservationbean.cl.civilite}">
+
+                            <f:selectItem itemLabel="Mr" itemValue="Mr"/>
+                            <f:selectItem itemLabel="Mme" itemValue="Mme"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel />
+                        <p:outputLabel style="border-radius: 8px;font-size: 15px;" for="nom" value="Nom :"/>
+                        <p:inputText style="border-radius: 8px;font-size: 15px;" value="#{reservationbean.cl.nomCl}" id="nom" required="true" placeholder="votre nom"/>
+                        <p:keyFilter mask="alpha" for="nom"/>
+
+                        <p:outputLabel style="border-radius: 8px;font-size: 15px;" for="prenom" value="Prénom :"/>
+                        <p:inputText style="border-radius: 8px;font-size: 15px;" value="#{reservationbean.cl.prenomCl}" id="prenom" required="true" placeholder="votre prénom"/>
+                        <p:keyFilter mask="alpha" for="prenom"/>
+
+                        <p:outputLabel style="border-radius: 8px;font-size: 15px;" for="naiss" value="Date de naisssance :"/>
+                        <p:calendar  style="border-radius: 8px;font-size: 15px;width: 100px" placeholder="votre date de naissance" id="naiss" locale="tr" showButtonPanel="true" navigator="true" showWeek="true"
+                                     timeZone="Europe/Paris" showOn="button" required="true" 
+                                     value="#{reservationbean.cl.dateNaissanceCl}" pattern="dd/MM/yyyy"  />
+                        <p:outputLabel />
+
+                        <p:outputLabel style="border-radius: 8px;font-size: 15px;width: 100px" for="nat" value="Nationnalité :"/>
+                        <p:selectOneMenu id="nat" value="#{reservationbean.cl.nationnaliteCl}" style="border-radius: 8px;font-size: 15px;width: 100px" 
+                                         var="nationalite_var" 
+                                         filterMatchMode="startsWith" effect="fade"  filter="true">
+                            <f:selectItem itemLabel="votre pays" itemValue=""/>
+                            <f:selectItems value="#{reservationbean.pays}" var="pays"
+                                           itemLabel="#{pays.commoName}" itemValue="#{pays.formalName}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel />
+
+                        <p:outputLabel style="border-radius: 8px;font-size: 15px;" for="cin" value="N°Cin ou passeport :"/>
+                        <p:inputText style="border-radius: 8px;font-size: 15px;" value="#{reservationbean.cl.cinCl}" id="cin" required="true" placeholder="votre CIN ou numero de passeport"/>
+                        <p:keyFilter mask="alphanum" for="prenom"/>
+
+
+                        <p:outputLabel for="nump" value="N°Permit :" style="border-radius: 8px;font-size: 15px;width: 100px"/>
+                        <p:inputText style="border-radius: 8px;font-size: 15px;" value="#{reservationbean.cl.numPermi}" id="nump" required="true" placeholder="votre numero de permit"/>
+                        <p:keyFilter mask="alphanum" for="nump" />
+
+                        <p:outputLabel for="email" value="Email :" style="border-radius: 8px;font-size: 15px;"/>
+                        <p:inputText style="border-radius: 8px;font-size: 15px;" value="#{reservationbean.cl.adresseMailCl}" id="email" required="true" placeholder="votre addresse email"/>
+                        <p:keyFilter mask="email" for="email"/>
+
+                        <p:outputLabel style="border-radius: 8px;font-size: 15px;" for="tel" value="N°Tel :"/>
+                        <p:inputText style="border-radius: 8px;font-size: 15px;" value="#{reservationbean.cl.numTelCl}" id="tel" required="true" placeholder="votre tél"/>
+                        <p:keyFilter mask="num" for="tel"/>
+
+                        <p:outputLabel style="border-radius: 8px;font-size: 15px;" for="adr" value="Adresse :"/>
+                        <p:inputText style="border-radius: 8px;font-size: 15px;" value="#{reservationbean.cl.adresseCl}" id="adr" required="true" placeholder="votre adresse"/>
+                        <p:outputLabel/>
+
+                        <p:commandButton value="retour" id="rtr" immediate="true" icon="ui-icon-arrowreturnthick-1-w" action="/acceil/acceil?faces-redirect=true"/>
+                        <p:commandButton update="msgs" style="margin-left: 300px" id="ok" value="Reservé" icon=" ui-icon-check" action="#{reservationbean.resv()}"/>
+
+                    </h:panelGrid>
+                    <p:blockUI block="principal" animate="true" trigger="ok">
+                        Chargement....<br />
+            <p:graphicImage name="/ressources/loader.gif"/>
+                    </p:blockUI>
+                    <p:blockUI animate="true" block="principal" trigger="rtr">
+                                       Chargement....<br />
+            <p:graphicImage name="/ressources/loader.gif"/>
+                    </p:blockUI>
+                </h:form>
+            </p:layoutUnit>
+            
+        
+        </p:layout>
+        
+
+        <script type="text/javascript">
+            function
+        </script>
+    </h:body>
+</html>
+
